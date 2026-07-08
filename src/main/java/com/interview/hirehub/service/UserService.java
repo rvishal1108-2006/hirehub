@@ -1,5 +1,6 @@
 package com.interview.hirehub.service;
-
+import com.interview.hirehub.dto.request.CreateUserRequest;
+import com.interview.hirehub.entity.User;
 import com.interview.hirehub.entity.User;
 import com.interview.hirehub.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,15 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User saveUser(User user) {
+    public User saveUser(CreateUserRequest request) {
+
+        User user = new User();
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+
         return userRepository.save(user);
     }
 

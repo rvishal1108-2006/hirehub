@@ -1,5 +1,6 @@
 package com.interview.hirehub.controller;
-
+import com.interview.hirehub.dto.request.CreateUserRequest;
+import jakarta.validation.Valid;
 import com.interview.hirehub.dto.response.ApiResult;
 import com.interview.hirehub.entity.User;
 import com.interview.hirehub.service.UserService;
@@ -18,9 +19,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ApiResult<User> createUser(@RequestBody User user) {
+    public ApiResult<User> createUser(@Valid @RequestBody CreateUserRequest request) {
 
-        User savedUser = userService.saveUser(user);
+        User savedUser = userService.saveUser(request);
 
         return new ApiResult<>(
                 true,
