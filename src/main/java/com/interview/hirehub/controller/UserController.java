@@ -5,7 +5,8 @@ import com.interview.hirehub.dto.response.ApiResult;
 import com.interview.hirehub.entity.User;
 import com.interview.hirehub.service.UserService;
 import org.springframework.web.bind.annotation.*;
-
+import com.interview.hirehub.dto.request.LoginRequest;
+import com.interview.hirehub.dto.response.LoginResponse;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,18 @@ public class UserController {
                 true,
                 "User created successfully",
                 savedUser
+        );
+    }
+
+    @PostMapping("/login")
+    public ApiResult<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+
+        LoginResponse response = userService.login(request);
+
+        return new ApiResult<>(
+                true,
+                "Login Successful",
+                response
         );
     }
 
