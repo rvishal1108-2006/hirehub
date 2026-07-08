@@ -8,18 +8,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import com.interview.hirehub.dto.request.LoginRequest;
 import com.interview.hirehub.dto.response.LoginResponse;
+import com.interview.hirehub.security.jwt.JwtService;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public User saveUser(CreateUserRequest request) {
@@ -44,11 +48,14 @@ public class UserService {
             throw new RuntimeException("Invalid email or password");
         }
 
+        String token = jwtService.generateToken(user.getEmail());
+
         return new LoginResponse(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getRole().name()
+                user.getRole().name(),
+                token
         );
     }
 

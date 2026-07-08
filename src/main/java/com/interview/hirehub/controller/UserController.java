@@ -1,12 +1,14 @@
 package com.interview.hirehub.controller;
+
 import com.interview.hirehub.dto.request.CreateUserRequest;
-import jakarta.validation.Valid;
+import com.interview.hirehub.dto.request.LoginRequest;
 import com.interview.hirehub.dto.response.ApiResult;
+import com.interview.hirehub.dto.response.LoginResponse;
 import com.interview.hirehub.entity.User;
 import com.interview.hirehub.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import com.interview.hirehub.dto.request.LoginRequest;
-import com.interview.hirehub.dto.response.LoginResponse;
+
 import java.util.List;
 
 @RestController
@@ -19,7 +21,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    // Register User
+    @PostMapping("/register")
     public ApiResult<User> createUser(@Valid @RequestBody CreateUserRequest request) {
 
         User savedUser = userService.saveUser(request);
@@ -31,6 +34,7 @@ public class UserController {
         );
     }
 
+    // Login User
     @PostMapping("/login")
     public ApiResult<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
 
@@ -43,6 +47,7 @@ public class UserController {
         );
     }
 
+    // Get All Users
     @GetMapping
     public ApiResult<List<User>> getAllUsers() {
 
@@ -53,6 +58,7 @@ public class UserController {
         );
     }
 
+    // Get User By ID
     @GetMapping("/{id}")
     public ApiResult<User> getUserById(@PathVariable Long id) {
 
@@ -63,6 +69,7 @@ public class UserController {
         );
     }
 
+    // Delete User
     @DeleteMapping("/{id}")
     public ApiResult<String> deleteUser(@PathVariable Long id) {
 
