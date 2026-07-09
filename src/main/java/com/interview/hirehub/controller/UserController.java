@@ -7,6 +7,7 @@ import com.interview.hirehub.dto.response.LoginResponse;
 import com.interview.hirehub.entity.User;
 import com.interview.hirehub.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Register User
+    // Public - Register
     @PostMapping("/register")
     public ApiResult<User> createUser(@Valid @RequestBody CreateUserRequest request) {
 
@@ -34,7 +35,7 @@ public class UserController {
         );
     }
 
-    // Login User
+    // Public - Login
     @PostMapping("/login")
     public ApiResult<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
 
@@ -47,7 +48,8 @@ public class UserController {
         );
     }
 
-    // Get All Users
+    // ADMIN ONLY
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ApiResult<List<User>> getAllUsers() {
 
@@ -58,7 +60,7 @@ public class UserController {
         );
     }
 
-    // Get User By ID
+    // Any Logged-in User
     @GetMapping("/{id}")
     public ApiResult<User> getUserById(@PathVariable Long id) {
 
@@ -69,7 +71,8 @@ public class UserController {
         );
     }
 
-    // Delete User
+    // ADMIN ONLY
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResult<String> deleteUser(@PathVariable Long id) {
 
